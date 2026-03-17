@@ -2,7 +2,8 @@ node_modules
 sts2.db
 public/images
 screenshots
-scripts
+scripts/*
+!scripts/entrypoint.sh
 .git
 .gitignore
 *.md

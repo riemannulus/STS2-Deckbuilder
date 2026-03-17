@@ -9,6 +9,8 @@ const yoga = createYoga({
   graphiql: true,
 });
 
+const isDev = process.env.NODE_ENV !== "production";
+
 Bun.serve({
   port: 3000,
   routes: {
@@ -20,22 +22,19 @@ Bun.serve({
       OPTIONS: (req) => yoga.handle(req),
     },
   },
-  fetch(req) {
+  async fetch(req) {
     const url = new URL(req.url);
+
+    // Serve static images
     if (url.pathname.startsWith("/images/")) {
-      const filePath = `public${url.pathname}`;
-      const file = Bun.file(filePath);
-      return file.exists().then((exists) => {
-        if (exists) return new Response(file);
-        return new Response("Not found", { status: 404 });
-      });
+      const file = Bun.file(`public${url.pathname}`);
+      if (await file.exists()) return new Response(file);
     }
-    return new Response("Not found", { status: 404 });
+
+    // Let Bun handle /_bun/ asset paths and everything else
+    return undefined as any;
   },
-  development: {
-    hmr: true,
-    console: true,
-  },
+  development: isDev ? { hmr: true, console: true } : false,
 });
 
 console.log("STS2 Deck Builder running at http://localhost:3000");

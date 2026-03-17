@@ -5,12 +5,8 @@ DATA_DIR="/app/data"
 DB_PATH="$DATA_DIR/sts2.db"
 IMAGES_DIR="$DATA_DIR/images"
 
-# Ensure data directory exists
+# Ensure directories exist
 mkdir -p "$DATA_DIR"
-
-# Symlink so the app finds files at expected paths
-ln -sf "$DB_PATH" /app/sts2.db
-ln -sfn "$IMAGES_DIR" /app/public/images
 mkdir -p /app/public
 
 # Force reseed if --reseed flag is passed
@@ -37,13 +33,17 @@ if [ ! -f "$DB_PATH" ]; then
   # Move DB to data dir if seed created it at default path
   if [ -f /app/sts2.db ] && [ ! -L /app/sts2.db ]; then
     mv /app/sts2.db "$DB_PATH"
-    ln -sf "$DB_PATH" /app/sts2.db
   fi
 
   echo "=== Seed complete ==="
 else
   echo "Database found at $DB_PATH — skipping seed."
+  # Ensure symlinks exist even on subsequent runs
+  ln -sfn "$IMAGES_DIR" /app/public/images
 fi
+
+# Always ensure DB symlink points to data dir
+ln -sf "$DB_PATH" /app/sts2.db
 
 echo "Starting STS2 Deck Builder..."
 exec bun run index.ts
