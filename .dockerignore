@@ -1,0 +1,11 @@
+node_modules
+sts2.db
+public/images
+screenshots
+scripts
+.git
+.gitignore
+*.md
+!README.md
+.omc
+.claude

@@ -1,0 +1,36 @@
+{
+  "name": "sts2-deckbuilder",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun --hot index.ts",
+    "start": "bun run index.ts",
+    "setup": "bash scripts/setup.sh",
+    "seed": "bun run src/server/db/seed.ts",
+    "reseed": "bash scripts/reseed.sh",
+    "test": "bun test",
+    "docker:build": "docker compose build",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "happy-dom": "^20.8.4",
+    "playwright": "^1.58.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "graphql": "^16.13.1",
+    "graphql-yoga": "^5.18.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
+}
